@@ -22,9 +22,9 @@ if __name__ == "__main__":
     for _csv_file in args.csv_file:
         results_csv_string = None
         with open(_csv_file) as infile:
-            first_line = unicode(infile.readline(), 'utf-8')
+            first_line = str(infile.readline(), 'utf-8')
             if not 'segmentid' in first_line.lower():
-                print 'Unknown CSV format, cannot process: {0}'.format(_csv_file)
+                print(('Unknown CSV format, cannot process: {0}'.format(_csv_file)))
 
             header_fields = first_line.lower().split(',')
             segment_index = header_fields.index('segmentid')
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     sorted_segment_ids.sort()
 
     out = open(args.output, 'w')
-    out.write(u'\n'.join([str(x) for x in sorted_segment_ids]).encode('utf-8'))
+    out.write('\n'.join([str(x) for x in sorted_segment_ids]).encode('utf-8'))
     out.close()
 
-    print 'Wrote {0} IDs to {1}'.format(len(sorted_segment_ids), args.output)
+    print(('Wrote {0} IDs to {1}'.format(len(sorted_segment_ids), args.output)))

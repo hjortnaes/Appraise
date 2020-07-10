@@ -38,7 +38,7 @@ try:
 
 except ImportError:
     GIT_BINARY = 'git'
-    SECRET_KEY = ''.join([chr(choice(range(128))) for _ in range(50)])
+    SECRET_KEY = ''.join([chr(choice(list(range(128)))) for _ in range(50)])
 
 try:
     from subprocess import check_output
@@ -47,7 +47,7 @@ try:
     COMMIT_TAG = commit_log.split('\n')[0].split()[0]
 
 # pylint: disable-msg=W0703
-except Exception, e:
+except Exception as e:
     COMMIT_TAG = None
 
 FORCE_SCRIPT_NAME = ""

@@ -29,7 +29,7 @@ def read_file(filename, list):
 def get_rankings(row):
     """Takes a DictReader row and computes all the rankings."""
     rankings = {}
-    for pair in combinations(range(5),2):
+    for pair in combinations(list(range(5)),2):
         rank1 = int(row.get('system%drank' % (pair[0] + 1)))
         rank2 = int(row.get('system%drank' % (pair[1] + 1)))
         sys1 = row.get('system%dId' % (pair[0] + 1))
@@ -75,18 +75,18 @@ if __name__ == "__main__":
         # print >> sys.stderr, 'will read from', args.consensus
         for row in DictReader(open(args.consensus)):
             if row.get('srcIndex') is None:
-                print >> sys.stderr, 'bad line', row
+                print('bad line', row, file=sys.stderr)
                 continue
             if not row.get('judgeId').startswith(args.judge):
                 continue
             sentno = int(row.get('srcIndex'))
             langpair = '%s-%s' % (LANGS[row.get('srclang')], LANGS[row.get('trglang')])
-            if not RANKINGS.has_key(langpair):
+            if langpair not in RANKINGS:
                 RANKINGS[langpair] = {}
-            if not RANKINGS[langpair].has_key(sentno):
+            if sentno not in RANKINGS[langpair]:
                 RANKINGS[langpair][sentno] = {}
             this_rankings = get_rankings(row)
-            for key in this_rankings.keys():
+            for key in list(this_rankings.keys()):
                 RANKINGS[langpair][sentno][key] = RANKINGS[langpair][sentno].get(key,0) + 1
 
     # Read in input
@@ -102,10 +102,10 @@ if __name__ == "__main__":
                   
         pair = '%s-%s' % (LANGS[srclang], LANGS[trglang])
 
-        print 'SENTENCE', srcIndex
-        print 'SOURCE', sources[pair][srcIndex-1]
-        print 'REFERENCE', refs[pair][srcIndex-1]
-        print 'USER', judgeId
+        print('SENTENCE', srcIndex)
+        print('SOURCE', sources[pair][srcIndex-1])
+        print('REFERENCE', refs[pair][srcIndex-1])
+        print('USER', judgeId)
 
         system_list = [(system1rank, system1Id, systems[pair][system1Id][srcIndex-1]),
                        (system2rank, system2Id, systems[pair][system2Id][srcIndex-1]),
@@ -131,8 +131,8 @@ if __name__ == "__main__":
         s = [[score(pair,srcIndex,system_list[y][1],system_list[x][1]) for x in range(5)] for y in range(5)]
         # print s
 
-        print '%s | %2d %2d %2d %2d | %s [%s]' % (system_list[0][0], s[0][1], s[0][2], s[0][3], s[0][4], system_list[0][2], system_list[0][1])
-        print '%s |    %2d %2d %2d | %s [%s]' % (system_list[1][0],           s[1][2], s[1][3], s[1][4], system_list[1][2], system_list[1][1])
-        print '%s |       %2d %2d | %s [%s]' % (system_list[2][0],                     s[2][3], s[2][4], system_list[2][2], system_list[2][1])
-        print '%s |          %2d | %s [%s]' % (system_list[3][0],                       s[3][4], system_list[3][2], system_list[3][1])
-        print '%s |             | %s [%s]' % (system_list[4][0],                                     system_list[4][2], system_list[4][1])
+        print('%s | %2d %2d %2d %2d | %s [%s]' % (system_list[0][0], s[0][1], s[0][2], s[0][3], s[0][4], system_list[0][2], system_list[0][1]))
+        print('%s |    %2d %2d %2d | %s [%s]' % (system_list[1][0],           s[1][2], s[1][3], s[1][4], system_list[1][2], system_list[1][1]))
+        print('%s |       %2d %2d | %s [%s]' % (system_list[2][0],                     s[2][3], s[2][4], system_list[2][2], system_list[2][1]))
+        print('%s |          %2d | %s [%s]' % (system_list[3][0],                       s[3][4], system_list[3][2], system_list[3][1]))
+        print('%s |             | %s [%s]' % (system_list[4][0],                                     system_list[4][2], system_list[4][1]))

@@ -33,8 +33,8 @@ def compare_data_point_to_dict(_data_point, target_dict):
     """
     _language_pair, _sentence_no, _ranking_decision = _data_point
     
-    if not target_dict.has_key(_language_pair) or \
-      not target_dict[language_pair].has_key(_sentence_no):
+    if _language_pair not in target_dict or \
+      _sentence_no not in target_dict[language_pair]:
         return False
     
     # pylint: disable-msg=W0612
@@ -62,14 +62,14 @@ def add_data_point_to_dict(_data_point, target_dict):
     """
     _language_pair, _sentence_no, _ranking_decision = _data_point
     
-    if not target_dict.has_key(_language_pair):
+    if _language_pair not in target_dict:
         target_dict[_language_pair] = {}
     
-    if not target_dict[_language_pair].has_key(_sentence_no):
+    if _sentence_no not in target_dict[_language_pair]:
         target_dict[_language_pair][_sentence_no] = {}
     
     _store = target_dict[_language_pair][_sentence_no]
-    if not _ranking_decision in _store.keys():
+    if not _ranking_decision in list(_store.keys()):
         _store[_ranking_decision] = 1
     else:
         _store[_ranking_decision] = _store[_ranking_decision] + 1
@@ -104,11 +104,11 @@ if __name__ == "__main__":
         sysIds = line_data[7:17:2]
         sysRanks = line_data[-5:]
         
-        if not judge_id in MTURK_DATA.keys():
+        if not judge_id in list(MTURK_DATA.keys()):
             MTURK_DATA[judge_id] = {}
         
         decisions = []
-        for a, b in combinations(range(5), 2):
+        for a, b in combinations(list(range(5)), 2):
             if sysRanks[a] > sysRanks[b]:
                 decisions.append('{0}>{1}'.format(sysIds[a], sysIds[b]))
             elif sysRanks[a] < sysRanks[b]:
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         sysRanks = line_data[-5:]
         
         decisions = []
-        for a, b in combinations(range(5), 2):
+        for a, b in combinations(list(range(5)), 2):
             if sysRanks[a] > sysRanks[b]:
                 decisions.append('{0}>{1}'.format(sysIds[a], sysIds[b]))
             elif sysRanks[a] < sysRanks[b]:
@@ -147,12 +147,12 @@ if __name__ == "__main__":
     
     user_agreement = []
     
-    for user_id in MTURK_DATA.keys():
+    for user_id in list(MTURK_DATA.keys()):
         rankings = 0
         overlap = 0
-        for language_pair, sentence_nos in MTURK_DATA[user_id].items():
-            for sentence_no, ranking_decisions in sentence_nos.items():
-                for decision, _ in ranking_decisions.items():
+        for language_pair, sentence_nos in list(MTURK_DATA[user_id].items()):
+            for sentence_no, ranking_decisions in list(sentence_nos.items()):
+                for decision, _ in list(ranking_decisions.items()):
                     rankings = rankings + 1
                     data_point = (language_pair, sentence_no, decision)
                     if compare_data_point_to_dict(data_point, APPRAISE_DATA):
@@ -161,12 +161,12 @@ if __name__ == "__main__":
         _data = (overlap / float(rankings or 1), overlap, rankings, user_id)
         user_agreement.append(_data)
     
-    print
+    print()
     user_agreement.sort()
     user_agreement.reverse()
-    print 'Username         Overlap  Total    Percentage'
+    print('Username         Overlap  Total    Percentage')
     for user_data in user_agreement:
-        print '{0:>15}:    {1:05d}    {2:05d}    {3:.5f}'.format(user_data[3],
-          user_data[1], user_data[2], user_data[0])
+        print(('{0:>15}:    {1:05d}    {2:05d}    {3:.5f}'.format(user_data[3],
+          user_data[1], user_data[2], user_data[0])))
     
-    print u'\n'.join(results)
+    print(('\n'.join(results)))

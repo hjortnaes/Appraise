@@ -44,7 +44,7 @@ if __name__ == "__main__":
     for _tasks_file in args.tasks_file:
         tasks_xml_string = None
         with open(_tasks_file) as infile:
-            tasks_xml_string = unicode(infile.read(), "utf-8")
+            tasks_xml_string = str(infile.read(), "utf-8")
 
         _tree = fromstring(tasks_xml_string.encode("utf-8"))
         for _child in _tree:
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             reference_text = _child.findall("reference")[0].text
             for candidate in _child.findall("candidate"):
                 candidate_text = candidate.text
-                print candidate_text.encode('utf-8')
+                print((candidate_text.encode('utf-8')))
 
             new_meta = MetaData()
             new_meta.save()

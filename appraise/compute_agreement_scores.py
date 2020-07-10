@@ -22,7 +22,7 @@ optional arguments:
   --verbose             Display additional information on kappa values.
 
 """
-from __future__ import print_function, unicode_literals
+
 
 import argparse
 from collections import defaultdict
@@ -81,7 +81,7 @@ def compute_agreement_scores(data):
         ties_cnt = 0
         ties_total = 0
         
-        for item_labels in _by_items.values():
+        for item_labels in list(_by_items.values()):
             ties_total += len(item_labels)
             
             for individual_label in item_labels:
@@ -134,11 +134,11 @@ if __name__ == "__main__":
     results_data = defaultdict(lambda: defaultdict(list))
     for i, row in enumerate(DictReader(args.results_file)):
         src_lang = row.get('srclang')
-        if src_lang in LANGUAGE_CODE_TO_NAME.keys():
+        if src_lang in list(LANGUAGE_CODE_TO_NAME.keys()):
             src_lang = LANGUAGE_CODE_TO_NAME[src_lang]
         
         trg_lang = row.get('trglang')
-        if trg_lang in LANGUAGE_CODE_TO_NAME.keys():
+        if trg_lang in list(LANGUAGE_CODE_TO_NAME.keys()):
             trg_lang = LANGUAGE_CODE_TO_NAME[trg_lang]
         
         language_pair = '{0}-{1}'.format(src_lang, trg_lang)
@@ -169,7 +169,7 @@ if __name__ == "__main__":
 #            continue
         
         # Compute individual ranking decisions for this users.
-        for a, b in combinations(range(len(systems)), 2):
+        for a, b in combinations(list(range(len(systems))), 2):
             _c = judge_id
             _i = '{0}.{1}.{2}'.format(segment_id, systems[a], systems[b])
             
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         scores = []
         handles = []
         
-        for segment_id, _judgements in segments_data.items():
+        for segment_id, _judgements in list(segments_data.items()):
             # Collect judgements on a per-coder-level.
             _coders = defaultdict(list)
             for _c, _i, _l in _judgements:
@@ -231,20 +231,20 @@ if __name__ == "__main__":
             elif args.intra_annotator_agreement:
                 # Check that we have at least one annotation item with two or
                 # more annotations from the current coder.
-                for _coder, _coder_judgements in _coders.items():
+                for _coder, _coder_judgements in list(_coders.items()):
                     _items = defaultdict(list)
                     for _, _i, _l in _coder_judgements:
                         _items[_i].append(_l)
                     
                     # If no item has two or more annotations, skip coder.
-                    if all([len(x)<2 for x in _items.values()]):
+                    if all([len(x)<2 for x in list(_items.values())]):
                         continue
                     
                     # We rename the judgements for the current coder s.t. we
                     # can compute intra-annotator agreement scores from
                     # inter-annotator agreement data ;)
                     renamed_judgements = []
-                    for _i, _ls in _items.items():
+                    for _i, _ls in list(_items.items()):
                         for d in range(len(_ls)):
                             _c = '{0}-{1}'.format(_coder, d)
                             renamed_judgements.append((_c, _i, _ls[d]))

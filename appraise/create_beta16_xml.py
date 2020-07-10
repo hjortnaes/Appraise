@@ -50,7 +50,7 @@ def dump_system(system_file, lines):
         sys.stderr.write('DUMPING TO %s\n' % (outfile))
         out = open(outfile, 'w')
         for line in lines:
-            out.write(u'{0}\n'.format(line).encode('utf-8'))
+            out.write('{0}\n'.format(line).encode('utf-8'))
         out.close()
 
 
@@ -137,8 +137,8 @@ if __name__ == "__main__":
 
         # To randomize the selection of systems, we have to generate the list of unique translations.
         # Note that this may result in less than five translation candidates...
-        deduped_system_ids = [x for x in unique_translations_to_system_ids_map.values()]
-        deduped_system_indexes = range(len(deduped_system_ids))
+        deduped_system_ids = [x for x in list(unique_translations_to_system_ids_map.values())]
+        deduped_system_indexes = list(range(len(deduped_system_ids)))
         random.shuffle(deduped_system_indexes)
         # Don't constrain number of systems...
         #deduped_system_indexes = deduped_system_indexes[:args.systemspertask]
@@ -146,7 +146,7 @@ if __name__ == "__main__":
         deduped_system_names = []
         deduped_system_output = []
         for deduped_id in deduped_system_indexes:
-            deduped_system_names.append(u','.join([system_names[system_id] for system_id in deduped_system_ids[deduped_id]]))
+            deduped_system_names.append(','.join([system_names[system_id] for system_id in deduped_system_ids[deduped_id]]))
             system_id = deduped_system_ids[deduped_id][0]
             deduped_system_output.append(systems[system_id][eligible[current_id]])
 
@@ -157,14 +157,14 @@ if __name__ == "__main__":
 
         for deduped_system_name, deduped_candidate_text in zip(deduped_system_names, deduped_system_output):
             tasks.append(
-              u'<segment id="{0}" source-language="{1}" target-language="{2}">\n' \
-              u'  <system-id>{3}</system-id>\n  <reference>{4}</reference>\n' \
-              u'  <candidate>{5}</candidate>\n</segment>'.format(current_id,
+              '<segment id="{0}" source-language="{1}" target-language="{2}">\n' \
+              '  <system-id>{3}</system-id>\n  <reference>{4}</reference>\n' \
+              '  <candidate>{5}</candidate>\n</segment>'.format(current_id,
                 args.sourceLang, args.targetLang, deduped_system_name,
                 reference_text, deduped_candidate_text)
             )
 
-    result_xml = u'<segments>\n{0}\n</segments>'.format(u'\n'.join(tasks))
+    result_xml = '<segments>\n{0}\n</segments>'.format('\n'.join(tasks))
 
     out = open(args.output, 'w')
     out.write(result_xml.encode('utf-8'))

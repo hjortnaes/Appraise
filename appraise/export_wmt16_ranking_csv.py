@@ -34,7 +34,7 @@ if __name__ == "__main__":
     
     # Check if annotation project exists.
     if not Project.objects.filter(name=args.annotation_project).exists():
-        print "Annotation project named '{0}' does not exist!".format(args.annotation_project)
+        print(("Annotation project named '{0}' does not exist!".format(args.annotation_project)))
         sys.exit(-1)
     project_instance = Project.objects.filter(name=args.annotation_project)[0]
     
@@ -42,9 +42,9 @@ if __name__ == "__main__":
     queryset = RankingResult.objects.filter(item__hit__completed=True,
       item__hit__project__id=project_instance.id)
 
-    header = u'srclang,trglang,srcIndex,documentId,segmentId,judgeId,system1Number,system1Id,system2Number,system2Id,system3Number,system3Id,system4Number,system4Id,system5Number,system5Id,system1rank,system2rank,system3rank,system4rank,system5rank'
+    header = 'srclang,trglang,srcIndex,documentId,segmentId,judgeId,system1Number,system1Id,system2Number,system2Id,system3Number,system3Id,system4Number,system4Id,system5Number,system5Id,system1rank,system2rank,system3rank,system4rank,system5rank'
     
-    print header
+    print(header)
     for result in queryset:
         if isinstance(result, RankingResult):
             try:
@@ -52,6 +52,6 @@ if __name__ == "__main__":
                 if current_csv is None:
                     continue
                     
-                print current_csv
+                print(current_csv)
             except:
                 pass

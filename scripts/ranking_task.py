@@ -17,15 +17,15 @@ class RankingTask:
         self.system_outputs = outputs
 
     def attr(self):
-        return u''
+        return ''
 
     def xml(self, indent=4):
-        _str  = u'\n    <seg{0}>'.format(self.attr())
-        _str += u'\n      <source id="{0}">{1}</source>'.format(self.id, self.source)
-        _str += u'\n      <reference>{0}</reference>'.format(self.reference)
+        _str  = '\n    <seg{0}>'.format(self.attr())
+        _str += '\n      <source id="{0}">{1}</source>'.format(self.id, self.source)
+        _str += '\n      <reference>{0}</reference>'.format(self.reference)
         for i in range(len(self.system_names)):
-            _str += u'\n      <translation system="{0}">{1}</translation>'.format(self.system_names[i], self.system_outputs[i])
-        _str += u'\n    </seg>'
+            _str += '\n      <translation system="{0}">{1}</translation>'.format(self.system_names[i], self.system_outputs[i])
+        _str += '\n    </seg>'
 
         return _str
 

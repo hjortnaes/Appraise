@@ -26,7 +26,7 @@ if __name__ == "__main__":
     for result in HIT.objects.filter(completed=True):
         result.reload_dynamic_fields()
         try:
-            print result.export_to_xml()
+            print((result.export_to_xml()))
         except:
             pass
 

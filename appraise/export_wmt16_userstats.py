@@ -47,7 +47,7 @@ if __name__ == "__main__":
             groups = _identify_groups_for_user(user)
             _group = "UNDEFINED"
             if len(groups) > 0:
-                _group = u";".join([g.name for g in groups])
+                _group = ";".join([g.name for g in groups])
             
             _data = (_name, _email, _project, _group, _user_stats[0], _user_stats[2])
             if _data[-2] > 0:
@@ -58,4 +58,4 @@ if __name__ == "__main__":
     
     # Print out CSV list.
     for user_data in user_stats:
-        print u",".join([unicode(x) for x in user_data])
+        print((",".join([str(x) for x in user_data])))

@@ -24,15 +24,15 @@ if __name__ == "__main__":
     from appraise.wmt15.models import RankingResult
     
     # Print out results in CSV WMT format.
-    headers = [u'srclang,trglang,srcIndex,documentId,segmentId,judgeId,' \
+    headers = ['srclang,trglang,srcIndex,documentId,segmentId,judgeId,' \
       'system1Number,system1Id,system2Number,system2Id,system3Number,' \
       'system3Id,system4Number,system4Id,system5Number,system5Id,' \
       'system1rank,system2rank,system3rank,system4rank,system5rank']
-    print u",".join(headers)
+    print((",".join(headers)))
     for result in RankingResult.objects.filter(item__hit__completed=True):
         result.reload_dynamic_fields()
         try:
-            print result.export_to_csv(expand_multi_systems=False)
+            print((result.export_to_csv(expand_multi_systems=False)))
         except:
             pass
 

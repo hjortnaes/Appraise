@@ -25,11 +25,11 @@ if __name__ == "__main__":
 
     # Print out results in CSV WMT format.
     headers = 'ID,srcLang,tgtLang,user,duration,rank_1,word_count_1,rank_2,word_count_2,rank_3,word_count_3,rank_4,word_count_5,rank_1,word_count_5'
-    print headers
+    print(headers)
     for result in RankingResult.objects.filter(item__hit__completed=True):
         result.reload_dynamic_fields()
         try:
-            print u','.join([unicode(x) for x in result.export_to_ranking_csv()])
+            print((','.join([str(x) for x in result.export_to_ranking_csv()])))
         except:
             pass
 

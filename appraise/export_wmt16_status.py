@@ -28,8 +28,8 @@ if __name__ == "__main__":
         remaining_hits[language_pair] = HIT.compute_remaining_hits(
           language_pair=language_pair)
     
-    print
-    print '[{0}]'.format(datetime.now().strftime("%c"))
-    for k, v in remaining_hits.items():
-        print '{0}: {1:03d}'.format(k, v)
-    print
+    print()
+    print(('[{0}]'.format(datetime.now().strftime("%c"))))
+    for k, v in list(remaining_hits.items()):
+        print(('{0}: {1:03d}'.format(k, v)))
+    print()

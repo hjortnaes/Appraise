@@ -76,7 +76,7 @@ def convert_mturk_to_csv(mturk_data, mturk_header):
         # if -1 in ranks:
         #     continue
         
-        _results.append(u','.join(values))
+        _results.append(','.join(values))
     
     return _results
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     
     MTURK_HEADER = {}
     line_no = 0
-    results = [u'srclang,trglang,srcIndex,documentId,segmentId,judgeId,' \
+    results = ['srclang,trglang,srcIndex,documentId,segmentId,judgeId,' \
       'system1Number,system1Id,system2Number,system2Id,system3Number,' \
       'system3Id,system4Number,system4Id,system5Number,system5Id,' \
       'system1rank,system2rank,system3rank,system4rank,system5rank']
@@ -105,10 +105,10 @@ if __name__ == "__main__":
             # to convert them into Python Strings, skipping empty Strings "".
             _field_data = [eval(k) for k in line.strip().split('\t') if k]
             _hitstatus = MTURK_HEADER['hitstatus']
-            if len(MTURK_HEADER.keys()) != len(_field_data) \
+            if len(list(MTURK_HEADER.keys())) != len(_field_data) \
               or _field_data[_hitstatus] != 'Reviewable':
                 continue
             
             results.extend(convert_mturk_to_csv(_field_data, MTURK_HEADER))
     
-    print u'\n'.join(results)
+    print(('\n'.join(results)))

@@ -78,7 +78,7 @@ def login(request, template_name):
         return render(request, 'frontpage.html', context)
     
     postedUsername = None
-    if request.POST.has_key('username'): 
+    if 'username' in request.POST: 
         postedUsername = request.POST['username']
     
     context = {

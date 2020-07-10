@@ -40,31 +40,31 @@ PARSER.add_argument("--dry-run", action="store_true", default=False,
 
 
 XML_REPAIR_PATTERNS = [
-  (u'& ', u'&amp; '),
-  (u'&amp ', u'&amp; '),
-  (u'&quot ', u'&quot; '),
-  (u'R&D', u'R&amp;D'),
-  (u'R & D', u'R &amp; D'),
-  (u'A&E', u'A&amp;E'),
-  (u'CD&V', u'CD&amp;V'),
-  (u'CD & V', u'CD &amp; V'),
-  (u'>Grub<', u'&gt;Grub&lt;'),
-  (u'S&P', u'S&amp;P'),
-  (u'S & P', u'S &amp; P'),
-  (u'&Poor ', u'&amp;Poor '),
-  (u'&.', u'&amp;.'),
-  (u'<службе', u'&lt;службе'),
-  (u'<security', u'&lt;security'),
-  (u'< ', u'&lt; '),
-  (u'B&Q', u'B&amp;Q'),
-  (u'B&F', u'B&amp;F'),
-  (u'Q&A', u'Q&amp;A'),
-  (u'</p >', u'&lt;/p &gt;'),
-  (u'<dollar-symbol>', u'&lt;dollar-symbol&gt;'),
-  (u'Б&', u'Б&amp;'),
-  (u'B&S', u'B&amp;S'),
-  (u'b&', u'b&amp;'),
-  (u'B & Q', u'B &amp; Q'),
+  ('& ', '&amp; '),
+  ('&amp ', '&amp; '),
+  ('&quot ', '&quot; '),
+  ('R&D', 'R&amp;D'),
+  ('R & D', 'R &amp; D'),
+  ('A&E', 'A&amp;E'),
+  ('CD&V', 'CD&amp;V'),
+  ('CD & V', 'CD &amp; V'),
+  ('>Grub<', '&gt;Grub&lt;'),
+  ('S&P', 'S&amp;P'),
+  ('S & P', 'S &amp; P'),
+  ('&Poor ', '&amp;Poor '),
+  ('&.', '&amp;.'),
+  ('<службе', '&lt;службе'),
+  ('<security', '&lt;security'),
+  ('< ', '&lt; '),
+  ('B&Q', 'B&amp;Q'),
+  ('B&F', 'B&amp;F'),
+  ('Q&A', 'Q&amp;A'),
+  ('</p >', '&lt;/p &gt;'),
+  ('<dollar-symbol>', '&lt;dollar-symbol&gt;'),
+  ('Б&', 'Б&amp;'),
+  ('B&S', 'B&amp;S'),
+  ('b&', 'b&amp;'),
+  ('B & Q', 'B &amp; Q'),
 ]
 
 
@@ -80,11 +80,11 @@ if __name__ == "__main__":
     from appraise.wmt16.validators import validate_hits_xml_file
 
     with open(args.hits_file) as infile:
-        hits_xml_string = unicode(infile.read(), "utf-8")
+        hits_xml_string = str(infile.read(), "utf-8")
         loop_counter = 0
         
         while loop_counter < 10:
-            print "loop counter: ", loop_counter
+            print(("loop counter: ", loop_counter))
             loop_counter += 1
 
             try:
@@ -92,18 +92,18 @@ if __name__ == "__main__":
                 validate_hits_xml_file(hits_xml_string)
                 break
 
-            except ValidationError, msg:
-                print msg
+            except ValidationError as msg:
+                print(msg)
                 for key, value in XML_REPAIR_PATTERNS:
-                    print repr(key), "-->", repr(value)
-                    patched_hits_xml_string = unicode.replace(hits_xml_string, key, value)
+                    print((repr(key), "-->", repr(value)))
+                    patched_hits_xml_string = str.replace(hits_xml_string, key, value)
                     hits_xml_string = patched_hits_xml_string
                     
                 continue
 
     if not args.dry_run_enabled:
         fixed_filename = '{0}.fixed'.format(args.hits_file)
-        print 'Writing fixed file to "{0}"...'.format(fixed_filename)
+        print(('Writing fixed file to "{0}"...'.format(fixed_filename)))
         with open(fixed_filename, 'w') as outfile:
             outfile.write(hits_xml_string.encode('utf-8'))
 

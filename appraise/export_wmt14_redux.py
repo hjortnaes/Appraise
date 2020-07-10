@@ -27,17 +27,17 @@ if __name__ == "__main__":
     ces2eng = Group.objects.filter(name="ces2eng")
     
     # Print out results in CSV WMT format.
-    headers = [u'srclang,trglang,srcIndex,documentId,segmentId,judgeId,' \
+    headers = ['srclang,trglang,srcIndex,documentId,segmentId,judgeId,' \
       'system1Number,system1Id,system2Number,system2Id,system3Number,' \
       'system3Id,system4Number,system4Id,system5Number,system5Id,' \
       'system1rank,system2rank,system3rank,system4rank,system5rank']
-    print u",".join(headers)
+    print((",".join(headers)))
     for result in RankingResult.objects.filter(item__hit__completed=True,item__hit__active=True,item__hit__language_pair="ces2eng"):
         result.reload_dynamic_fields()
         try:
 #            igroups = list(result.item.hit.groups.all())
 #            if ces2eng in igroups:
-            print result.export_to_csv()
+            print((result.export_to_csv()))
         except:
             pass
 

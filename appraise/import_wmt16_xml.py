@@ -59,7 +59,7 @@ if __name__ == "__main__":
     
     # Check if annotation project exists.
     if not Project.objects.filter(name=args.annotation_project).exists():
-        print "Annotation project named '{0}' does not exist!".format(args.annotation_project)
+        print("Annotation project named '{0}' does not exist!".format(args.annotation_project))
         sys.exit(-1)
     project_instance = Project.objects.filter(name=args.annotation_project)[0]
     
@@ -67,20 +67,20 @@ if __name__ == "__main__":
     first_run = True
     for _hits_file in args.hits_file:
         if not first_run and args.sleep_seconds > 0:
-            print 'Waiting {0} second(s)'.format(args.sleep_seconds),
+            print('Waiting {0} second(s)'.format(args.sleep_seconds), end=' ')
             for i in range(args.sleep_seconds):
-                print ' .',
+                print(' .', end=' ')
                 sys.stdout.flush()
                 sleep(1)
-            print
-            print
+            print()
+            print()
         
         else:
             first_run = False
         
         hits_xml_string = None
         with open(_hits_file) as infile:
-            hits_xml_string = unicode(infile.read(), "utf-8")
+            hits_xml_string = str(infile.read(), "utf-8")
         
         # Validate XML before trying to import anything from the given file.
         validate_hits_xml_file(hits_xml_string)
@@ -97,7 +97,7 @@ if __name__ == "__main__":
             # Hotfix potentially wrong ISO codes;  we are using ISO-639-3.
             iso_639_2_to_3_mapping = {'cze': 'ces', 'fre': 'fra', 'ger': 'deu',
               'ron': 'rom', 'tur': 'trk', 'eus': 'baq'}
-            for part2_code, part3_code in iso_639_2_to_3_mapping.items():
+            for part2_code, part3_code in list(iso_639_2_to_3_mapping.items()):
                 language_pair = language_pair.replace(part2_code, part3_code)
         
             try:
@@ -119,12 +119,12 @@ if __name__ == "__main__":
                     project_instance.HITs.add(h)
         
             # pylint: disable-msg=W0703
-            except Exception, msg:
-                print msg
+            except Exception as msg:
+                print(msg)
                 _errors = _errors + 1
     
-        print
-        print '[{0}]'.format(_hits_file)
-        print 'Successfully imported {0} HITs, encountered errors for ' \
-          '{1} HITs.'.format(_total, _errors)
-        print
+        print()
+        print('[{0}]'.format(_hits_file))
+        print('Successfully imported {0} HITs, encountered errors for ' \
+          '{1} HITs.'.format(_total, _errors))
+        print()

@@ -57,8 +57,8 @@ if __name__ == "__main__":
         for line in system:
             systems[i].append(line.strip())
 
-    print '<set id="%s" source-language="%s" target-language="%s">' \
-      % (args.id, args.sourceLang, args.targetLang)
+    print('<set id="%s" source-language="%s" target-language="%s">' \
+      % (args.id, args.sourceLang, args.targetLang))
 
     # TODO: change to use of .format() calls. Check that it works with UTF-8 data.
     for i, sentence in enumerate(systems[0]):
@@ -68,14 +68,14 @@ if __name__ == "__main__":
         docid = args.source.name if args.sameDocument else '{}-{}'.format(
           args.source.name, i+1)
 
-        print '  <seg id="%d" doc-id="%s">' % (i+1, docid)
-        print '    <source>%s</source>' % (source[i])
+        print('  <seg id="%d" doc-id="%s">' % (i+1, docid))
+        print('    <source>%s</source>' % (source[i]))
         if len(reference) >= i+1:
-            print '    <reference>%s</reference>' % (reference[i])
+            print('    <reference>%s</reference>' % (reference[i]))
         for j, system in enumerate(systems):
-            print '    <translation system="%s">%s</translation>' \
-              % (args.system[j].name, system[i])
-        print '  </seg>'
-    print '</set>'
+            print('    <translation system="%s">%s</translation>' \
+              % (args.system[j].name, system[i]))
+        print('  </seg>')
+    print('</set>')
 
     

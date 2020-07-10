@@ -65,11 +65,11 @@ class AnnotationTask(AnnotationTask):
         
         """
         data = data or self.data
-        k1 = (x for x in data if x['coder'] in (cA, cB) and x['item']==i).next()
+        k1 = next((x for x in data if x['coder'] in (cA, cB) and x['item']==i))
         if k1['coder'] == cA:
-            k2 = (x for x in data if x['coder']==cB and x['item']==i).next()
+            k2 = next((x for x in data if x['coder']==cB and x['item']==i))
         else:
-            k2 = (x for x in data if x['coder']==cA and x['item']==i).next()
+            k2 = next((x for x in data if x['coder']==cA and x['item']==i))
 
         ret = 1.0 - float(self.distance(k1['labels'], k2['labels']))
         log.debug("Observed agreement between %s and %s on %s: %f",
