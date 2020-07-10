@@ -12,3 +12,11 @@ Thumbs.db
 RUN
 manage.py
 appraise.pid
+/venv/
+/.idea/.gitignore
+/.idea/Appraise.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
